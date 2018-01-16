@@ -11,10 +11,15 @@ void yuv_sampUV(pel_t *src, pel_t *dst, int width, int height)
     int dst_hei = height;
     pel_t *YU_src = src + width * height;
     pel_t *YU_dst = dst + dst_wid * dst_hei;
+    pel_t cur, right, down, right_down;
     int i, j, k = 0;
     for (i = 0; i < (height << 1); i += 2)
         for (j = 0; j < width; j += 2) {
-            YU_dst[k] = (YU_src[i * dst_wid + j] + YU_src[i * dst_wid + j + 1] + YU_src[(i + 1) * dst_wid + j] + YU_src[(i + 1) * dst_wid + j + 1]) >> 2;
+            cur = YU_src[i * dst_wid + j];
+            right = YU_src[i * dst_wid + j + 1];
+            down = YU_src[(i + 1) * dst_wid + j];
+            right_down = YU_src[(i + 1) * dst_wid + j + 1];
+            YU_dst[k] = (cur + right + down + right_down + 2) >> 2;
             k++;
         }
 }
@@ -34,7 +39,7 @@ int main(int argc, char** argv)
     pel_t *in_image = (pel_t *)malloc(in_size * sizeof(pel_t));
     pel_t *out_image = (pel_t *)malloc(out_size * sizeof(pel_t));
 
-    int frame_cnt, r, c;
+    int frame_cnt;
     for (frame_cnt = 0; frame_cnt < frames; frame_cnt++) {
         fread(in_image, sizeof(pel_t), in_size, in_fp);
 
