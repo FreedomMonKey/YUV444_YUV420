@@ -31,21 +31,21 @@ int main(int argc, char** argv)
     int in_size = width * height * 3;
     int out_size = width * height * 3 / 2;
 
-    uint8_t *in_image = (uint8_t *)malloc(in_size * sizeof(pel_t));
-    uint8_t *out_image = (uint8_t *)malloc(out_size * sizeof(pel_t));
+    pel_t *in_image = (pel_t *)malloc(in_size * sizeof(pel_t));
+    pel_t *out_image = (pel_t *)malloc(out_size * sizeof(pel_t));
 
-    uint8_t *Y = in_image;
-    uint8_t *U = in_image + width * height;
-    uint8_t *V = in_image + width * height * 5 / 4;
+    pel_t *Y = in_image;
+    pel_t *U = in_image + width * height;
+    pel_t *V = in_image + width * height * 5 / 4;
 
     int frame_cnt, r, c;
     for (frame_cnt = 0; frame_cnt < frames; frame_cnt++) {
-        fread(in_image, sizeof(uint8_t), in_size, in_fp);
+        fread(in_image, sizeof(pel_t), in_size, in_fp);
 
         memcpy(out_image, in_image, width * height * sizeof(pel_t));
         yuv_sampUV(in_image, out_image, width, height);
 
-        fwrite(out_image, sizeof(uint8_t), out_size, out_fp);
+        fwrite(out_image, sizeof(pel_t), out_size, out_fp);
     }
 
     printf("completed!!!\n");
