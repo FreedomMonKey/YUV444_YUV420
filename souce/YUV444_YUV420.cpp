@@ -34,10 +34,6 @@ int main(int argc, char** argv)
     pel_t *in_image = (pel_t *)malloc(in_size * sizeof(pel_t));
     pel_t *out_image = (pel_t *)malloc(out_size * sizeof(pel_t));
 
-    pel_t *Y = in_image;
-    pel_t *U = in_image + width * height;
-    pel_t *V = in_image + width * height * 5 / 4;
-
     int frame_cnt, r, c;
     for (frame_cnt = 0; frame_cnt < frames; frame_cnt++) {
         fread(in_image, sizeof(pel_t), in_size, in_fp);
